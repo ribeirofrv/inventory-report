@@ -5,7 +5,7 @@ from inventory_report.reports.simple_report import SimpleReport
 
 
 class InventoryRefactor:
-    def __init__(self, importer = Importer):
+    def __init__(self, importer: Importer):
         self.importer = importer
         self.data = list()
 
@@ -14,11 +14,10 @@ class InventoryRefactor:
 
     def import_data(self, file_path: str, type: str):
         self.data.extend(self.importer.import_data(file_path))
-        try:
-            return (
-                SimpleReport.generate(self.data)
-                if type == "simples"
-                else CompleteReport.generate(self.data)
-            )
-        except:
+
+        if type == "simples":
+            return SimpleReport.generate(self.data)
+        elif type == "completo":
+            return CompleteReport.generate(self.data)
+        else:
             raise ValueError("Arquivo inválido")
